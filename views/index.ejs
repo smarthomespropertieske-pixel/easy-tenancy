@@ -4,6 +4,29 @@
     <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
 <body>
-    <h1>Hello world</h1>
+    <h1>Gemini AI Content Generator</h1>
+    <form id="prompt-form">
+        <label for="prompt">Enter a prompt:</label><br>
+        <textarea id="prompt" name="prompt" rows="4" cols="50"></textarea><br>
+        <button type="submit">Generate Content</button>
+    </form>
+    <h2>Generated Content:</h2>
+    <div id="generated-content"></div>
+
+    <script>
+        document.getElementById('prompt-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const prompt = document.getElementById('prompt').value;
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+            const data = await response.json();
+            document.getElementById('generated-content').innerText = data.generatedText;
+        });
+    </script>
 </body>
 </html>
